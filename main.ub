@@ -1,0 +1,21 @@
+/*
+To run this on macho64, build this file with
+
+umber com -c main.ub -t macho64 -v
+ld ./build/main.o -o ./build/main -macos_version_min 13.0 -e _start
+
+*/
+
+import "io.h.ub";
+import "strings.h.ub";
+
+fun main(argc: u64, argv: char *): u64 {
+    string_print("Hello World!\n" as char *);
+
+    let buf: char *mut = [<char>; 16];
+    std_read(buf, 16);
+
+    std_write(buf, 16);
+
+    return 0;
+};

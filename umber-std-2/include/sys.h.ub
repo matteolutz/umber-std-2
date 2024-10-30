@@ -1,0 +1,3 @@
+extern fun sys_read(fd: u64, buf: char *mut, size: u64): u64;
+extern fun sys_write(fd: u64, buf: char *, size: u64): u64;
+extern fun sys_exit(status: u64): u64;

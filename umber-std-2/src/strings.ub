@@ -1,0 +1,14 @@
+import "strings.h.ub";
+import "io.h.ub";
+
+fun string_len(buf: char *): u64 {
+    let mut s: char * = buf;
+   
+    for s; *s != '\0'; s += 1 { asm[""]; };
+
+    return (s as u64 - buf as u64);
+};
+
+fun string_print(buf: char *): u64 {
+    return std_write(buf as char *, string_len(buf as char *));
+};

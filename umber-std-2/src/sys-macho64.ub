@@ -1,0 +1,13 @@
+import "sys.h.ub";
+
+fun sys_read(fd: u64, buf: char *mut, size: u64): u64 {
+    return syscall[0x02000003, fd, buf as u64, size];
+};
+
+fun sys_write(fd: u64, buf: char *, size: u64): u64 {
+    return syscall[0x02000004, fd, buf as u64, size];
+};
+
+fun sys_exit(status: u64): u64 {
+    return syscall[0x02000001, status, 0, 0];
+};

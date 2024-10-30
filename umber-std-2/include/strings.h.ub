@@ -1,0 +1,2 @@
+extern fun string_len(buf: char *): u64;
+extern fun string_print(buf: char *): u64;

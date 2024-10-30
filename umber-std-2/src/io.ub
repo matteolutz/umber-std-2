@@ -1,0 +1,10 @@
+import "sys.h.ub";
+import "io.h.ub";
+
+fun std_write(buf: char *, size: u64): u64 {
+    return sys_write(1, buf, size);
+};
+
+fun std_read(buf: char *mut, size: u64): u64 {
+    return sys_read(0, buf, size);
+};
