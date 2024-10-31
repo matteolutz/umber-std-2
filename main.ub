@@ -7,6 +7,7 @@ ld ./build/main.o -o ./build/main -macos_version_min 13.0 -e _start
 */
 
 import "sys.h.ub";
+import "socket.h.ub";
 import "io.h.ub";
 import "strings.h.ub";
 
