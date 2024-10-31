@@ -1,0 +1,6 @@
+struct sockaddr_t {
+    family: u16,
+    port: u16,
+    addr: u32,
+    zero: void *
+};

@@ -1,3 +1,14 @@
+import "socket.h.ub";
+
+extern fun sys_exit(status: u64): u64;
+
+// IO
 extern fun sys_read(fd: u64, buf: char *mut, size: u64): u64;
 extern fun sys_write(fd: u64, buf: char *, size: u64): u64;
-extern fun sys_exit(status: u64): u64;
+extern fun sys_close(fd: u64): u64;
+
+// Sockets
+extern fun sys_socket(domain: u64, type: u64, protocol: u64): u64;
+extern fun sys_bind(s: u64, name: struct sockaddr_t *, namelen: u64): u64;
+extern fun sys_listen(s: u64, backlog: u64): u64;
+extern fun sys_accept(s: u64, name: struct sockaddr_t *, namelen: u64 *): u64;

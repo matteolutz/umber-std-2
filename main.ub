@@ -10,13 +10,6 @@ import "sys.h.ub";
 import "io.h.ub";
 import "strings.h.ub";
 
-struct sockaddr_t {
-    family: u16,
-    port: u16,
-    addr: u32,
-    zero: void *
-};
-
 macro AF_INET 2;
 macro SOCK_STREAM 1;
 macro INADDR_LOCAL 0x100007F;
@@ -33,26 +26,6 @@ fun sys_write_cstr(fd: u64, buf: char *): u64 {
     return sys_write(fd, buf, string_len(buf));
 };
 
-fun sys_socket(a: u64, b: u64, c: u64): u64 {
-    return syscall[0x02000061, a, b, c];
-};
-
-fun sys_bind(a: u64, b: u64, c: u64): u64 {
-    return syscall[0x02000068, a, b, c];
-};
-
-fun sys_listen(a: u64, b: u64): u64 {
-    return syscall[0x0200006A, a, b, 0];
-};
-
-fun sys_accept(a: u64, b: u64, c: u64): u64 {
-    return syscall[0x0200001E, a, b, c];
-};
-
-fun sys_close(fd: u64): u64 {
-    return syscall[0x02000006, fd, 0, 0];
-};
-
 fun main(argc: u64, argv: char *): u64 {
     let fd: u64 = sys_socket(AF_INET, SOCK_STREAM, 0);
 
@@ -61,7 +34,7 @@ fun main(argc: u64, argv: char *): u64 {
     server_addr.port @= htons(PORT) as u16;
     server_addr.addr @= INADDR_LOCAL as u32;
 
-    sys_bind(fd, server_addr as u64, sizeof[struct sockaddr_t]);
+    sys_bind(fd, server_addr, sizeof[struct sockaddr_t]);
 
     sys_listen(fd, 5);
 
@@ -71,7 +44,7 @@ fun main(argc: u64, argv: char *): u64 {
     while 1 as bool {
         string_print("Waiting for connection...\n" as char *);
 
-        let conn_fd: u64 = sys_accept(fd, client_addr as u64, (&client_len) as u64);
+        let conn_fd: u64 = sys_accept(fd, client_addr, &client_len);
 
         sys_write_cstr(conn_fd, "HTTP/1.1 200 OK\r\n" as char *);
         sys_write_cstr(conn_fd, "Content-Type: text/html; charset=utf8\r\n\r\n" as char *);

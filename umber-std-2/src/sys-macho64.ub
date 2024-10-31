@@ -1,5 +1,11 @@
 import "sys.h.ub";
+import "socket.h.ub";
 
+fun sys_exit(status: u64): u64 {
+    return syscall[0x02000001, status, 0, 0];
+};
+
+// IO
 fun sys_read(fd: u64, buf: char *mut, size: u64): u64 {
     return syscall[0x02000003, fd, buf as u64, size];
 };
@@ -8,6 +14,23 @@ fun sys_write(fd: u64, buf: char *, size: u64): u64 {
     return syscall[0x02000004, fd, buf as u64, size];
 };
 
-fun sys_exit(status: u64): u64 {
-    return syscall[0x02000001, status, 0, 0];
+fun sys_close(fd: u64): u64 {
+    return syscall[0x02000006, fd, 0, 0];
+};
+
+// Sockets
+fun sys_socket(domain: u64, type: u64, protocol: u64): u64 {
+    return syscall[0x02000061, domain, type, protocol];
+};
+
+fun sys_bind(s: u64, name: struct sockaddr_t *, namelen: u64): u64 {
+    return syscall[0x02000068, s, name, namelen];
+};
+
+fun sys_listen(s: u64, backlog: u64): u64 {
+    return syscall[0x0200006A, s, backlog, 0];
+};
+
+fun sys_accept(s: u64, name: struct sockaddr_t *, namelen: u64 *): u64 {
+    return syscall[0x0200001E, s, name, namelen];
 };
