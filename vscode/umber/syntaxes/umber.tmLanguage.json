@@ -1,0 +1,242 @@
+{
+	"name": "umber",
+	"scopeName": "source.umber",
+	"patterns": [
+		{
+			"include": "#block_comment"
+		},
+		{
+			"include": "#line_comment"
+		},
+		{
+			"comment": "Single-quote string literal (character)",
+			"name": "string.quoted.single.umber",
+			"match": "b?'([^'\\\\]|\\\\(x[0-9A-Fa-f]{2}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.))'"
+		},
+		{
+			"include": "#string_literal"
+		},
+		{
+			"comment": "Integer literal (hexadecimal)",
+			"name": "constant.numeric.integer.hexadecimal.umber",
+			"match": "\\b(0x)([a-fA-F0-9])+\\b"
+		},
+
+		{
+			"comment": "Floating point literal (typed)",
+			"name": "constant.numeric.float.umber",
+			"match": "\\b[0-9]*(\\.[0-9]+)\\b"
+		},
+
+		{
+			"comment": "Integer literal (decimal)",
+			"name": "constant.numeric.integer.decimal.umber",
+			"match": "\\b[0-9]+\\b"
+		},
+		{
+			"comment": "Static storage modifier",
+			"name": "storage.modifier.static.umber",
+			"match": "\\b(static)\\b"
+		},
+		{
+			"comment": "Boolean constant",
+			"name": "constant.language.boolean.umber",
+			"match": "\\b(true|false)\\b"
+		},
+		{
+			"comment": "Control keyword",
+			"name": "keyword.control.umber",
+			"match": "\\b(break|continue|else|if|for|return|while)\\b"
+		},
+		{
+			"comment": "Keyword",
+			"name": "keyword.other.umber",
+			"match": "\\b(extern|let|import|as)\\b"
+		},
+		{
+			"include": "#mut"
+		},
+		{
+			"include": "#const"
+		},
+		{
+			"comment": "Comparison operator",
+			"name": "keyword.operator.comparison.umber",
+			"match": "(&&|\\|\\||==|!=)"
+		},
+		{
+			"comment": "Assignment operator",
+			"name": "keyword.operator.assignment.umber",
+			"match": "(\\+=|-=|/=|\\*=|%=|\\^=|&=|\\|=|<<=|>>=|=|@=)"
+		},
+		{
+			"comment": "Arithmetic operator",
+			"name": "keyword.operator.arithmetic.umber",
+			"match": "(!|\\+|-|/|\\*|%|\\^|&|\\||<<|>>)"
+		},
+		{
+			"comment": "Comparison operator (second group because of regex precedence)",
+			"name": "keyword.operator.comparison.umber",
+			"match": "(<=|>=|<|>)"
+		},
+		{
+			"include": "#core_types"
+		},
+		{
+			"comment": "Built-in macro",
+			"name": "support.function.builtin.umber",
+			"match": "\\b(asm|syscall|sizeof)"
+		},
+		{
+			"comment": "Invocation of a macro",
+			"match": "\\b([a-zA-Z][a-zA-Z0-9_]*)\\s*\\[",
+			"captures": {
+				"1": {
+					"name": "entity.name.function.macro.umber"
+				}
+			}
+		},
+		{
+			"comment": "Function call",
+			"match": "\\b([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]+)\\s*\\(",
+			"captures": {
+				"1": {
+					"name": "entity.name.function.umber"
+				}
+			}
+		},
+		{
+			"comment": "Function definition",
+			"begin": "\\b(fun)\\s+([A-Za-z][A-Za-z0-9_]*|_[A-Za-z0-9_]+)",
+			"end": "[\\{;]",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.fn.umber"
+				},
+				"2": {
+					"name": "entity.name.function.umber"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#block_comment"
+				},
+				{
+					"include": "#line_comment"
+				},
+				{
+					"include": "#mut"
+				},
+				{
+					"include": "#core_types"
+				},
+				{
+					"include": "#const"
+				},
+				{
+					"comment": "Function arguments",
+					"match": "\bfun\b",
+					"name": "keyword.other.fn.umber"
+				}
+			]
+		},
+		{
+			"comment": "Type Usage",
+			"match": "\\b(struct)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\b",
+			"captures": {
+				"1": {
+					"name": "storage.type.umber"
+				},
+				"2": {
+					"name": "entity.name.type.umber"
+				}
+			}
+		},
+		{
+			"comment": "Type declaration",
+			"begin": "\\b(struct)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+			"end": "[\\{]",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.type.umber"
+				},
+				"2": {
+					"name": "entity.name.type.umber"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#block_comment"
+				},
+				{
+					"include": "#line_comment"
+				},
+				{
+					"include": "#core_types"
+				}
+			]
+		},
+		{
+			"comment": "Macro Definition",
+			"begin": "\\b(macro)\\s+([a-zA-Z_][a-zA-Z0-9_]*)",
+			"end": "[;]",
+			"beginCaptures": {
+				"1": {
+					"name": "keyword.other.macro.umber"
+				},
+				"2": {
+					"name": "entity.name.function.macro.umber"
+				}
+			}
+		}
+	],
+	"repository": {
+		"block_comment": {
+			"comment": "Block comment",
+			"name": "comment.block.umber",
+			"begin": "/\\*",
+			"end": "\\*/",
+			"patterns": [
+				{
+					"include": "#block_comment"
+				}
+			]
+		},
+		"line_comment": {
+			"comment": "Single-line comment",
+			"name": "comment.line.double-slash.umber",
+			"begin": "//",
+			"end": "$"
+		},
+		"escaped_character": {
+			"name": "constant.character.escape.umber",
+			"match": "\\\\(x[0-9A-Fa-f]{2}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.)"
+		},
+		"string_literal": {
+			"comment": "Double-quote string literal",
+			"name": "string.quoted.double.umber",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"include": "#escaped_character"
+				}
+			]
+		},
+		"mut": {
+			"comment": "Mutable storage modifier",
+			"name": "storage.modifier.mut.umber",
+			"match": "\\b(mut)\\b"
+		},
+		"const": {
+			"comment": "Const storage modifier",
+			"name": "storage.modifier.const.umber",
+			"match": "\\b(const)\\b"
+		},
+		"core_types": {
+			"comment": "Built-in/core type",
+			"name": "support.type.primitive.umber",
+			"match": "\\b(bool|char|u8|u16|u32|u64|i8|i16|i32|i64|f64|string|void)\\b"
+		}
+	}
+}
